@@ -77,10 +77,3 @@ Board.prototype.diagonals = function() {
 };
 
 module.exports = Board;
-
-// var board = new Board();
-// console.log(board.gameOver());
-// board.print();
-// board.placeMark([1,1], 'o');
-// console.log(board.gameOver());
-// board.print();
