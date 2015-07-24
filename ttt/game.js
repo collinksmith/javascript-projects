@@ -1,10 +1,5 @@
 var Board = require("./board");
-
-var readline = require('readline');
-var reader = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+// var readline = require('readline');
 
 function Game(reader) {
   this.reader = reader;
@@ -13,28 +8,31 @@ function Game(reader) {
 }
 
 Game.prototype.run = function (completionCallback) {
+  this.board.print();
   if (this.board.gameOver() || this.board.tieGame()) {
-    completionCallback();
-    this.reader.close();
-    this.board.print();
-    if (this.board.gameOver()) {
-      console.log("YOU WINNER, YOU!");
-    } else {
-      console.log("TIE GAME!");
-    }
+    this.endGame(completionCallback);
   } else {
-    this.board.print();
-
-    this.promptMove(function(move) {
-      if (this.board.validMove(move)) {
-        this.board.placeMark(move, this.currentMark);
-        this.switchMark();
-      } else {
-        console.log("Invalid move!");
-      }
-      this.run(completionCallback);
-    }.bind(this));
+    this.promptMove(this.handleMove.bind(this, completionCallback));
   }
+};
+
+Game.prototype.handleMove = function(completionCallback, move) {
+  if (this.board.validMove(move)) {
+    this.board.placeMark(move, this.currentMark);
+    this.switchMark();
+  } else {
+    console.log("Invalid move!");
+  }
+  this.run(completionCallback);
+};
+
+Game.prototype.endGame = function (completionCallback) {
+  if (this.board.gameOver()) {
+    console.log("YOU WINNER, YOU!");
+  } else {
+    console.log("TIE GAME!");
+  }
+  completionCallback();
 };
 
 Game.prototype.switchMark = function () {
@@ -43,7 +41,7 @@ Game.prototype.switchMark = function () {
 
 Game.prototype.promptMove = function (callback) {
   var message = "Player, " + this.currentMark + ", where do you want to move?";
-  reader.question( message, function (input) {
+  this.reader.question( message, function (input) {
     var move = input.split(" ").map( function(el) {
       return parseInt(el);
     } );
@@ -52,7 +50,4 @@ Game.prototype.promptMove = function (callback) {
   });
 };
 
-var game = new Game(reader);
-game.run(function() {
-  console.log("Pizza!");
-} );
+module.exports = Game;
