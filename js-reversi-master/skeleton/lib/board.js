@@ -37,7 +37,7 @@ Board.DIRS = [
  * throwing an Error if the position is invalid.
  */
 Board.prototype.getPiece = function (pos) {
-  if isValidPos(pos){
+  if (this.isValidPos(pos)){
     return this.grid[pos[1]][pos[0]];
   } else{
     throw "Not a valid position";
@@ -151,7 +151,7 @@ Board.prototype.print = function () {
         output += "_";
       }
       output += "\n";
-    }
+    })
   })
   console.log(output);
   return output;

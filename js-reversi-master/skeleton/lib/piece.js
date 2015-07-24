@@ -9,7 +9,7 @@ function Piece (color) {
  * Returns the color opposite the current piece.
  */
 Piece.prototype.oppColor = function () {
-  (this.color === 'white') ? 'black' : 'white';
+  return (this.color === 'white') ? 'black' : 'white';
 };
 
 /**
@@ -24,7 +24,7 @@ Piece.prototype.flip = function () {
  * based on its color.
  */
 Piece.prototype.toString = function () {
-  (this.color === 'white') : 'x' : 'o';
+  return (this.color === 'white') ? 'x' : 'o';
 };
 
 module.exports = Piece;
