@@ -1,14 +1,15 @@
 div.carousel {
   height: 310px;
   width: 200px;
-  position: relative;
   margin: 0 auto;
   text-align: center;
 }
 
-div.items img {
+div.items {
+  position: relative;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 div.items img:not(.active) {
@@ -16,8 +17,15 @@ div.items img:not(.active) {
 }
 
 .slider-buttons a {
+  padding: 20px;
   font-size: 24px;
   padding: 5px;
+}
+
+.active {
+  position: absolute;
+  left: 0%;
+  transition: left 500ms;
 }
 
 .left {

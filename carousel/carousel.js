@@ -9,14 +9,21 @@
   };
 
   $.Carousel.prototype.slide = function (dir) {
+    // remove active class from old active item
     var childNum = this.activeIdx + 1;
-    var $activeItem = $('div.items img:nth-child(' + childNum + ')');
-    $activeItem.removeClass('active');
+    var $oldActiveItem = $('div.items img:nth-child(' + childNum + ')');
+    $oldActiveItem.removeClass('active');
 
+    // change active idx and assign new active item to variable
     this.changeActiveIdx(dir);
-    var $items = $('div.items').children();
-    $items.eq(this.activeIdx).addClass('active');
-    this.setLeftOrRight(dir);
+    var $newActiveItem = $('div.items').children().eq(this.activeIdx);
+
+    // update classes on new active item
+    $newActiveItem.addClass('active');
+    this.setLeftOrRight(dir, $oldActiveItem, $newActiveItem);
+    setTimeout(function () {
+      $newActiveItem.removeClass('right').removeClass('left');
+    }.bind(this), 0);
 
   };
 
@@ -39,16 +46,17 @@
     return newIdx;
   };
 
-  $.Carousel.prototype.setLeftOrRight = function (dir) {
-    var $items = $('div.items').children();
-    $items.removeClass('left').removeClass('right');
+  $.Carousel.prototype.setLeftOrRight = 
+    function (dir, $oldActiveItem, $newActiveItem) {
+      var $items = $('div.items').children();
+      $items.removeClass('left').removeClass('right');
 
-    var newIdx = this.wrapIdx(this.activeIdx + dir);
-    if (dir === 1) {
-      $items.eq(this.activeIdx).addClass('right');
-    } else {
-      $items.eq(this.activeIdx).addClass('left');
-    }
+      var newIdx = this.wrapIdx(this.activeIdx + dir);
+      if (dir === 1) {
+        $items.eq(this.activeIdx).addClass('right');
+      } else {
+        $items.eq(this.activeIdx).addClass('left');
+      }
   };
 
   $.fn.carousel = function () {
