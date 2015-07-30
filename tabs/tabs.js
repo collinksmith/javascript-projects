@@ -1,5 +1,5 @@
-(function($) {
-  $.Tabs = function(el) {
+(function ($) {
+  $.Tabs = function (el) {
     this.$el = $(el);
     this.$contentTabs = $('ul[data-content-tabs]');
     this.$activeTab = $('#content-tabs > .active');
@@ -23,15 +23,14 @@
     this.$activeTab = $(tabId);
     this.$activeTab.addClass('active').addClass('transitioning');
     var that = this;
-    setTimeout(function() {
+    setTimeout(function () {
       that.$activeTab.removeClass('transitioning');
     }, 0);
   };
 
-  $.fn.tabs = function() {
-    return this.each(function() {
+  $.fn.tabs = function () {
+    return this.each(function () {
       new $.Tabs(this);
     });
   };
-
 })(jQuery);
