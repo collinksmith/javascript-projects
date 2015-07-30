@@ -10,6 +10,11 @@
   };
 
   $.Carousel.prototype.slide = function (dir) {
+    // exit the function if currently transitioning
+    // otherwise, set transitioning flag to true and proceed
+    if (this.transitioning) { return -1; }
+    this.transitioning = true;
+
     // set old active item as an instance variable
     var childNum = this.activeIdx + 1;
     this.$oldActiveItem = $('div.items img:nth-child(' + childNum + ')');
@@ -64,6 +69,8 @@
     this.$oldActiveItem.removeClass('active')
                        .removeClass('left')
                        .removeClass('right');
+
+    this.transitioning = false;
   };
 
   $.fn.carousel = function () {
