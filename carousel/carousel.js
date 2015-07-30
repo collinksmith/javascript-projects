@@ -6,13 +6,13 @@
 
     this.$el.on('click', '.slide-right', this.slide.bind(this, -1));
     this.$el.on('click', '.slide-left', this.slide.bind(this, 1));
+    this.$el.on('transitionend', this.removeClasses.bind(this, event));
   };
 
   $.Carousel.prototype.slide = function (dir) {
-    // remove active class from old active item
+    // set old active item as an instance variable
     var childNum = this.activeIdx + 1;
-    var $oldActiveItem = $('div.items img:nth-child(' + childNum + ')');
-    $oldActiveItem.removeClass('active');
+    this.$oldActiveItem = $('div.items img:nth-child(' + childNum + ')');
 
     // change active idx and assign new active item to variable
     this.changeActiveIdx(dir);
@@ -20,11 +20,10 @@
 
     // update classes on new active item
     $newActiveItem.addClass('active');
-    this.setLeftOrRight(dir, $oldActiveItem, $newActiveItem);
+    this.setLeftAndRight(dir, this.$oldActiveItem, $newActiveItem);
     setTimeout(function () {
       $newActiveItem.removeClass('right').removeClass('left');
     }.bind(this), 0);
-
   };
 
   $.Carousel.prototype.changeActiveIdx = function (dir) {
@@ -46,17 +45,25 @@
     return newIdx;
   };
 
-  $.Carousel.prototype.setLeftOrRight = 
+  $.Carousel.prototype.setLeftAndRight =
     function (dir, $oldActiveItem, $newActiveItem) {
       var $items = $('div.items').children();
       $items.removeClass('left').removeClass('right');
 
       var newIdx = this.wrapIdx(this.activeIdx + dir);
       if (dir === 1) {
-        $items.eq(this.activeIdx).addClass('right');
+        $newActiveItem.addClass('right');
+        $oldActiveItem.addClass('left');
       } else {
-        $items.eq(this.activeIdx).addClass('left');
+        $newActiveItem.addClass('left');
+        $oldActiveItem.addClass('right');
       }
+  };
+
+  $.Carousel.prototype.removeClasses = function (event) {
+    this.$oldActiveItem.removeClass('active')
+                       .removeClass('left')
+                       .removeClass('right');
   };
 
   $.fn.carousel = function () {
