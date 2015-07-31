@@ -1,5 +1,6 @@
 div.thumbnails {
   width: 400px;
+  margin: 0 auto;
 }
 
 div.active img {

@@ -8,17 +8,11 @@
 
     this.fillGutterImages();
 
-    // event listeners
-    this.$el.on('click',
-                '.gutter-images img',
-                this.swapActiveImg.bind(this));
-    this.$el.on('mouseenter',
-                '.gutter-images img',
-                this.mouseEnter.bind(this));
-    this.$el.on('mouseleave',
-                '.gutter-images img',
-                this.mouseLeave.bind(this));
-    this.$el.on('click', 'a.nav', this.changeGutterIdx.bind(this))
+    // Event listeners
+    this.$el.on('click', '.gutter-images img', this.swapActiveImg.bind(this));
+    this.$el.on('mouseenter', '.gutter-images img', this.mouseEnter.bind(this));
+    this.$el.on('mouseleave', '.gutter-images img', this.mouseLeave.bind(this));
+    this.$el.on('click', 'a.nav', this.changeGutterIdx.bind(this));
   };
 
   $.Thumbnails.prototype.fillGutterImages = function () {
@@ -26,11 +20,11 @@
 
     for (var i = this.gutterIdx; i < this.gutterIdx + 5; i++) {
       var itemIdx = this.wrapIdx(i);
-      console.log("Adding picture index " + itemIdx);
       $('.gutter-images').append(this.$images.eq(itemIdx));
     }
   };
 
+  // Wrap the given idx around the length of the list of images
   $.Thumbnails.prototype.wrapIdx = function (idx) {
     if (idx >= this.$images.length) {
       return idx - this.$images.length;
@@ -41,6 +35,8 @@
     }
   };
 
+  // Add a clone of the given image to the 'active' div.
+  // If there is already an item there, replace it with the new one.
   $.Thumbnails.prototype.activate = function ($img) {
     var $clonedImg = $img.clone();
     if ($('.active').children().length > 0) {
@@ -67,8 +63,10 @@
 
   $.Thumbnails.prototype.changeGutterIdx = function (event) {
     var $button = $(event.currentTarget);
-    var newIdx;
 
+    // Increment or decrement current gutter index depending on
+    // which nav button was pressed.
+    var newIdx;
     if ($button.hasClass("left")) {
       newIdx = this.gutterIdx -= 1;
     } else {
