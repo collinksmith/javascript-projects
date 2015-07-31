@@ -25,7 +25,19 @@
     $('.gutter-images').empty();
 
     for (var i = this.gutterIdx; i < this.gutterIdx + 5; i++) {
-      $('.gutter-images').append(this.$images.eq(i));
+      var itemIdx = this.wrapIdx(i);
+      console.log("Adding picture index " + itemIdx);
+      $('.gutter-images').append(this.$images.eq(itemIdx));
+    }
+  };
+
+  $.Thumbnails.prototype.wrapIdx = function (idx) {
+    if (idx >= this.$images.length) {
+      return idx - this.$images.length;
+    } else if (idx < 0) {
+      return idx + this.$images.length;
+    } else {
+      return idx;
     }
   };
 
@@ -51,6 +63,20 @@
     var $newImg = $(event.currentTarget);
     this.$activeImg = $newImg;
     this.activate(this.$activeImg);
+  };
+
+  $.Thumbnails.prototype.changeGutterIdx = function (event) {
+    var $button = $(event.currentTarget);
+    var newIdx;
+
+    if ($button.hasClass("left")) {
+      newIdx = this.gutterIdx -= 1;
+    } else {
+      newIdx = this.gutterIdx += 1;
+    }
+
+    this.gutterIdx = this.wrapIdx(newIdx);
+    this.fillGutterImages();
   };
 
   $.fn.thumbnails = function () {
