@@ -8,6 +8,7 @@
 
     this.fillGutterImages();
 
+    // event listeners
     this.$el.on('click',
                 '.gutter-images img',
                 this.swapActiveImg.bind(this));
@@ -17,10 +18,15 @@
     this.$el.on('mouseleave',
                 '.gutter-images img',
                 this.mouseLeave.bind(this));
+    this.$el.on('click', 'a.nav', this.changeGutterIdx.bind(this))
   };
 
   $.Thumbnails.prototype.fillGutterImages = function () {
-    
+    $('.gutter-images').empty();
+
+    for (var i = this.gutterIdx; i < this.gutterIdx + 5; i++) {
+      $('.gutter-images').append(this.$images.eq(i));
+    }
   };
 
   $.Thumbnails.prototype.activate = function ($img) {
@@ -38,7 +44,6 @@
   };
 
   $.Thumbnails.prototype.mouseLeave = function (event) {
-    console.log("got to mouse leave");
     this.activate(this.$activeImg);
   };
 

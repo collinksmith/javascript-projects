@@ -13,3 +13,30 @@ div.active img {
   display: block;
   float: left;
 }
+
+div.gutter {
+  position: relative;
+}
+
+.gutter-images {
+  width: 90%;
+  position: relative;
+  left: 5%;
+}
+
+a.nav {
+  width: 5%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  text-decoration: none;
+}
+
+a.nav:last-of-type {
+  left: 95%;
+}
+
+.group {
+  clear: both;
+}
